@@ -1,0 +1,20 @@
+﻿@model IEnumerable<CallingMvc.Models.Product>
+@using CallingMvc.Models
+@{
+    ViewBag.Title = "List Product";
+
+}
+
+<h2>List Product</h2>
+<div style="font-family:Arial">
+    <ul>
+        @foreach (Product product in Model)
+        {
+            <li>
+                @Html.ActionLink(product.Name, "Detiles", new { @id = product.ProductId }, null)
+            </li>
+        }
+    </ul>
+</div>
+@Html.ActionLink("Back to list", "Index", "Category")
+

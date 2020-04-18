@@ -1,0 +1,75 @@
+﻿@model IPagedList<CallingMvc.Models.Product>
+@using PagedList;
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Home</h2>
+@using (Html.BeginForm("Index", "Home", FormMethod.Get))
+{
+    <b>Search By price:</b>
+    @Html.RadioButton("searchby", "Name", true) <text>Name</text>
+    @Html.RadioButton("searchby", "Description") <text>Description</text>
+    <br />
+    @Html.TextBox("Search")
+    <input type="submit" value="Search" />
+}
+<p>
+    @Html.ActionLink("Categorys", "Index","Category")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Name", "Index", new { sortby = ViewBag.SortNameParameter })
+        </th>
+        <th>
+            @Html.ActionLink("Description", "Index", new { sortby = ViewBag.SortNameParameter })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Data)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Category.Categury_Name)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Categury_Name)
+            </td>
+            <td>
+                @using (Html.BeginForm("Add", "Carts", new { id = item.ProductId }))
+                {
+                    <div class="form-group">
+                        <div class="col-md-offset-4 col-md-10">
+                            <input type="submit" value="Add To Cart" class="btn btn-default" />
+                        </div>
+                    </div>
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+@Html.PagedListPager(Model, Page => Url.Action("Index", new { Page, searchby = Request.QueryString["searchby"], Search = Request.QueryString["Search"] }), new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayPageCountAndCurrentLocation = true })

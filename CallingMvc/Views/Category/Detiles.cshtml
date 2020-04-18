@@ -1,0 +1,17 @@
+﻿@model CallingMvc.Models.Category
+
+@{
+    ViewBag.Title = "Detiles Categyry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detiles Categyry</h2>
+
+<table style="font-family:Arial">
+   
+    <tr>
+        <td>Categury Name :</td>
+        <td>@Model.Categury_Name</td>
+    </tr>
+</table>
+@Html.ActionLink("Back to list", "Index")
